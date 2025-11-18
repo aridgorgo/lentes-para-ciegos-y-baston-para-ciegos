@@ -1,0 +1,27 @@
+const int sensorAgua = 2;     // Pin digital para el sensor de agua
+const int motorDC = 3;        // Pin digital para controlar el motor
+
+// Variables
+bool estadoSensor = false;    // Estado del sensor (true = agua detectada)
+
+void setup() {
+  pinMode(sensorAgua, INPUT); // Configurar sensor como entrada
+  pinMode(motorDC, OUTPUT);   // Configurar motor como salida
+  digitalWrite(motorDC, LOW); // Asegurar que el motor está apagado al inicio
+  
+  Serial.begin(9600);         // Iniciar comunicación serial para monitoreo
+}
+
+void loop() {
+  estadoSensor = digitalRead(sensorAgua); // Leer estado del sensor
+  
+  if (estadoSensor == HIGH) {
+    digitalWrite(motorDC, HIGH);  // Activar motor si hay agua
+    Serial.println("Agua detectada - Motor ACTIVADO");
+  } else {
+    digitalWrite(motorDC, LOW);   // Desactivar motor si no hay agua
+    Serial.println("Sin agua - Motor APAGADO");
+  }
+  
+  delay(500); // Pequeña pausa para estabilidad
+}
